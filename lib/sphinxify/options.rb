@@ -51,18 +51,22 @@ module Sphinxify
       @options[:field_weights].merge!(field_weight) if field_weight.kind_of?(Hash)
     end
 
+    # Sets the current pagination page.
     def page(page)
       @options[:page] = page
     end
 
+    # Sets the number of results to paginate per page.
     def per_page(per_page)
       @options[:per_page] = per_page
     end
 
+    # Produces the appropriate options search hash for Thinking Sphinx.
     def to_search_options
       @options.select { |key, value| value.present? }
     end
 
+    # Produces the appropriate options facet hash for Thinking Sphinx.
     def to_facet_options
       to_search_options.slice(:select, :with, :conditions, :geo)
     end
