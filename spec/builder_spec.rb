@@ -135,9 +135,9 @@ describe Sphinxify::Builder do
 
     builder.to_search_options.should be == {
       with: {
-        food_id: ["1", "2"],
-        color: ["3", "4"],
-        size: "32",
+        food_id: ['1', '2'],
+        color: ['3', '4'],
+        size: '32',
         quantity: 100..200,
         geodist: 0.0..40233.5,
         latitude: 1.4974924982111346..0.4384790679785354,
