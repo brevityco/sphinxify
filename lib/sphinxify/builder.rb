@@ -4,12 +4,13 @@ module Sphinxify
 
     delegate :select, :with, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
     
-    def initialize(options, &block)
+    def initialize(options={}, &block)
       options = ActiveSupport::HashWithIndifferentAccess.new(options)
       @filters = options.delete(:filters) || {}
+      geo = options.delete(:geo)
       @sort = options[:sort]
       @sphinx_options = Sphinxify::Options.new(options)
-      geo(options[:geo])
+      geo(geo)
       instance_eval(&block)
     end
 
@@ -35,6 +36,16 @@ module Sphinxify
       end
     end
 
+    def bounding_box_filter
+      if filters && filters[:upper_left_latitude]
+        upper_left_latitude = filters[:upper_left_latitude].to_f
+        upper_left_longitude = filters[:upper_left_longitude].to_f
+        lower_right_latitude = filters[:lower_right_latitude].to_f
+        lower_right_longitude = filters[:lower_right_longitude].to_f
+        with(latitude: radians(lower_right_latitude)..radians(upper_left_latitude), longitude: radians(upper_left_longitude)..radians(lower_right_longitude))
+      end
+    end
+
     def sort(sorting)
       if @sort.present?
         ordering = sorting.stringify_keys![@sort]
@@ -48,16 +59,6 @@ module Sphinxify
 
     def ranker(ranker)
       sphinx_options.ranker(ranker)
-    end
-
-    def bounding_box_filter
-      if filters && filters[:upper_left_latitude]
-        upper_left_latitude = filters[:upper_left_latitude].to_f
-        upper_left_longitude = filters[:upper_left_longitude].to_f
-        lower_right_latitude = filters[:lower_right_latitude].to_f
-        lower_right_longitude = filters[:lower_right_longitude].to_f
-        with(latitude: radians(lower_right_latitude)..radians(upper_left_latitude), longitude: radians(upper_left_longitude)..radians(lower_right_longitude))
-      end
     end
 
     def present?
