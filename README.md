@@ -58,7 +58,7 @@ builder.to_search_options # =>
 ```
 
 **Note:**
-Sphinxify expects geographic coordinates to be in decimal degrees. Sphinxify will convert decimal degrees into radians for Thinking Sphinx/Sphinx.
+Sphinxify expects geographic coordinates to be in decimal degrees. Decimal degrees are converted into radians for Thinking Sphinx/Sphinx.
 
 ## Contributing to sphinxify
  
