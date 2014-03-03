@@ -56,10 +56,7 @@ describe Sphinxify::Builder do
       'distance' => '25' # miles
     }
 
-    # Point location must be in radians.
-    geo = [90.0 * (Math::PI / 180.0), 30.0 * (Math::PI / 180.0)]
-
-    builder = Sphinxify::Builder.new(filters: params, geo: geo) do
+    builder = Sphinxify::Builder.new(filters: params, geo: [40.75, 111.88]) do
       distance_filter(:distance)
     end
 
@@ -67,7 +64,7 @@ describe Sphinxify::Builder do
       with: {
         geodist: 0.0..40233.5
       },
-      geo: [1.5707963267948966, 0.5235987755982988]
+      geo: [0.7112216701876893, 1.9526743671312559]
     }
   end
 
@@ -118,10 +115,8 @@ describe Sphinxify::Builder do
       'lower_right_latitude' => '85.8',
       'lower_right_longitude' => '7.185'
     }
-    # Point location must be in radians.
-    geo = [90.0 * (Math::PI / 180.0), 30.0 * (Math::PI / 180.0)]
 
-    builder = Sphinxify::Builder.new(filters: params, geo: geo) do
+    builder = Sphinxify::Builder.new(filters: params, geo: [40.75, 111.88]) do
       category_filter(:food_id)
       category_filter(:color)
       category_filter(:size)
@@ -147,7 +142,7 @@ describe Sphinxify::Builder do
         color: 2,
         size: 4
       },
-      geo: [1.5707963267948966, 0.5235987755982988]
+      geo: [0.7112216701876893, 1.9526743671312559]
     }
   end
 end

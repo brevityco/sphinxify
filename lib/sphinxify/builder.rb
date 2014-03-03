@@ -1,16 +1,18 @@
 module Sphinxify
   class Builder
     attr_reader :filters, :sphinx_options
+    TS_OPTIONS = [:with, :conditions, :field_weights, :order, :select, :ranker, :page, :per_page]
 
     delegate :select, :with, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
     
     def initialize(options={}, &block)
       options = ActiveSupport::HashWithIndifferentAccess.new(options)
-      @filters = options.delete(:filters) || {}
-      geo = options.delete(:geo)
+      @sphinx_options = Sphinxify::Options.new(options.slice(*TS_OPTIONS))
+
+      @filters = options[:filters] || {}
       @sort = options[:sort]
-      @sphinx_options = Sphinxify::Options.new(options)
-      geo(geo)
+      @geo  = options[:geo]
+      
       instance_eval(&block)
     end
 
@@ -28,6 +30,7 @@ module Sphinxify
     end
 
     def distance_filter(name)
+      geoify
       if filters[name] && filters[name].present? && to_search_options[:geo].present?
         distance = filters[name].to_i
         distance = 5 if distance.zero?
@@ -68,6 +71,11 @@ module Sphinxify
     end
 
     private
+    def geoify
+      return unless @geo
+      geo([radians(@geo.first), radians(@geo.last)])
+    end
+
     def radians(degrees)
       degrees * (Math::PI / 180.0)
     end
