@@ -39,22 +39,22 @@ Sphinxify will produce the following Thinking Sphinx options:
 
 ```ruby
 builder.to_search_options # =>
-  {
-    with: {
-      food_id: ['1', '2'],
-      color: ['3', '4'],
-      size: '32',
-      quantity: 100..200,
-      geodist: 0.0..40233.5,
-      latitude: 1.4974924982111346..0.4384790679785354,
-      longitude: 0.17667968017938596..0.12540190675579257
-    },
-    field_weights: {
-      color: 2,
-      size: 4
-    },
-    geo: [0.7112216701876893, 1.9526743671312559]
-  }
+{
+  with: {
+    food_id: ['1', '2'],
+    color: ['3', '4'],
+    size: '32',
+    quantity: 100..200,
+    geodist: 0.0..40233.5,
+    latitude: 1.4974924982111346..0.4384790679785354,
+    longitude: 0.17667968017938596..0.12540190675579257
+  },
+  field_weights: {
+    color: 2,
+    size: 4
+  },
+  geo: [0.7112216701876893, 1.9526743671312559]
+}
 ```
 
 **Note:**
