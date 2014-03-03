@@ -39,7 +39,7 @@ builder = Sphinxify::Builder.new(filters: params, geo: geo) do
 end
 ```
 
-Sphinxify will map produce the following Thinking Sphinx options:
+Sphinxify will produce the following Thinking Sphinx options:
 
 ```ruby
 builder.to_search_options # =>
