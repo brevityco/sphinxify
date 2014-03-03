@@ -37,7 +37,7 @@ builder = Sphinxify::Builder.new(filters: params, geo: geo) do
   weight(:color, 2)
   weight(:size, 4)
 end
-``
+```
 
 Sphinxify will map produce the following Thinking Sphinx options:
 
