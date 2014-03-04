@@ -16,6 +16,8 @@ params = {
   'upper_left_longitude' => '10.123',
   'lower_right_latitude' => '85.8',
   'lower_right_longitude' => '7.185'
+  'start_date' => '2013-01-01'
+  'end_date' => '2014-01-01'
 }
 ```
 
@@ -27,6 +29,7 @@ builder = Sphinxify::Builder.new(filters: params, geo: [40.75, 111.88]) do
   category_filter(:color)
   category_filter(:size)
   range_filter(:quantity)
+  date_range_filter(:created_at)
   distance_filter(:distance)
   bounding_box_filter
 
@@ -45,6 +48,7 @@ builder.to_search_options # =>
     color: ['3', '4'],
     size: '32',
     quantity: 100..200,
+    created_at: '2013-01-01'.to_date..'2014-01-01'.to_date
     geodist: 0.0..40233.5,
     latitude: 1.4974924982111346..0.4384790679785354,
     longitude: 0.17667968017938596..0.12540190675579257
@@ -63,7 +67,7 @@ Sphinxify will discard empty and nil values from a filter hash.
 Sphinxify expects geographic coordinates to be in decimal degrees. Decimal degrees are converted into radians for Thinking Sphinx/Sphinx.
 
 ## Contributing to sphinxify
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.

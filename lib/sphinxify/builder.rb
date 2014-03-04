@@ -4,7 +4,7 @@ module Sphinxify
     TS_OPTIONS = [:with, :conditions, :field_weights, :order, :select, :ranker, :page, :per_page]
 
     delegate :select, :with, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
-    
+
     def initialize(options={}, &block)
       options = ActiveSupport::HashWithIndifferentAccess.new(options)
       @sphinx_options = Sphinxify::Options.new(options.slice(*TS_OPTIONS))
@@ -12,7 +12,7 @@ module Sphinxify
       @filters = options[:filters] || {}
       @sort = options[:sort]
       @geo  = options[:geo]
-      
+
       instance_eval(&block)
     end
 
@@ -21,6 +21,15 @@ module Sphinxify
       if filters[name_low].present? && filters[name_high].present?
         with(name => filters[name_low].to_i..filters[name_high].to_i)
       end
+    end
+
+    def date_range_filter(name)
+      name_start, name_end = "#{name}_start", "#{name}_end" 
+      if filters[name_start].present? && filters[name_end].present?
+        with(name => filters[name_start].to_date..filters[name_end].to_date)
+      end
+      rescue ArgumentError => e
+        raise e unless e.to_s == 'invalid date'
     end
 
     def category_filter(name)
