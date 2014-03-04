@@ -1,7 +1,7 @@
 module Sphinxify
   class Builder
     attr_reader :filters, :sphinx_options
-    TS_OPTIONS = [:with, :conditions, :field_weights, :order, :select, :ranker, :page, :per_page]
+    TS_OPTIONS = [:with, :conditions, :field_weights, :order, :select, :ranker, :page, :per_page, :max_matches, :sort_mode]
 
     delegate :select, :with, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
 
