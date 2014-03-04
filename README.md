@@ -57,6 +57,8 @@ builder.to_search_options # =>
 }
 ```
 
+Sphinxify will discard empty and nil values from a filter hash.
+
 **Note:**
 Sphinxify expects geographic coordinates to be in decimal degrees. Decimal degrees are converted into radians for Thinking Sphinx/Sphinx.
 
