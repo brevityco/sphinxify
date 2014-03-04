@@ -147,7 +147,7 @@ describe Sphinxify::Builder do
       'lower_right_longitude' => '7.185'
     }
 
-    builder = Sphinxify::Builder.new(filters: params, geo: [40.75, 111.88]) do
+    builder = Sphinxify::Builder.new(filters: params, geo: [40.75, 111.88], sort_mode: :desc, per_page: 5_000, max_matches: 5_000) do
       category_filter(:food_id)
       category_filter(:color)
       category_filter(:size)
@@ -173,7 +173,10 @@ describe Sphinxify::Builder do
         color: 2,
         size: 4
       },
-      geo: [0.7112216701876893, 1.9526743671312559]
+      geo: [0.7112216701876893, 1.9526743671312559],
+      per_page: 5000,
+      max_matches: 5000,
+      sort_mode: :desc
     }
   end
 end

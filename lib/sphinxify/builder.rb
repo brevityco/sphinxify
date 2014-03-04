@@ -7,7 +7,7 @@ module Sphinxify
 
     def initialize(options={}, &block)
       options = ActiveSupport::HashWithIndifferentAccess.new(options)
-      @sphinx_options = Sphinxify::Options.new(options.slice(*TS_OPTIONS))
+      @sphinx_options = Sphinxify::Options.new(options.slice(*TS_OPTIONS).symbolize_keys)
 
       @filters = options[:filters] || {}
       @sort = options[:sort]
