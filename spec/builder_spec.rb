@@ -39,8 +39,8 @@ describe Sphinxify::Builder do
 
   it 'should convert a properly formed date param into a date range filter query' do
     params = {
-      'start_date' => '2013-01-01',
-      'end_date' => '2014-01-01'
+      'created_at_start' => '2013-01-01',
+      'created_at_end' => '2014-01-01'
     }
 
     builder = Sphinxify::Builder.new(filters: params) do
@@ -49,10 +49,24 @@ describe Sphinxify::Builder do
 
     builder.to_search_options.should be == {
       with: {
-        created_at: "'2013-01-01'.to_date..'2014-01-01'.to_date"
+        created_at: '2013-01-01'.to_date..'2014-01-01'.to_date
       }
     }
   end
+
+  it 'should discard bad dates' do
+    params = {
+      'created_at_start' => 'asdf',
+      'created_at_end' => 'asdf'
+    }
+
+    builder = Sphinxify::Builder.new(filters: params) do
+      date_range_filter(:created_at)
+    end
+
+    builder.to_search_options.should be == {}
+  end
+
 
   it 'should ignore empty and malformed parameters' do
     params = {

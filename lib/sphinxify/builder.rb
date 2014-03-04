@@ -24,9 +24,12 @@ module Sphinxify
     end
 
     def date_range_filter(name)
-      if filters[:start_date].present? && filters[:end_date].present?
-        with(name => "'#{filters[:start_date]}'.to_date..'#{filters[:end_date]}'.to_date")
+      name_start, name_end = "#{name}_start", "#{name}_end" 
+      if filters[name_start].present? && filters[name_end].present?
+        with(name => filters[name_start].to_date..filters[name_end].to_date)
       end
+      rescue ArgumentError => e
+        raise e unless e.to_s == 'invalid date'
     end
 
     def category_filter(name)
