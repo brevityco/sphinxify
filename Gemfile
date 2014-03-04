@@ -12,4 +12,4 @@ group :development do
   gem 'rspec'
 end
 
-gem 'activesupport', '~> 4.0.0'
+gem 'activesupport', '>= 3.2.0'
