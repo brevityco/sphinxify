@@ -22,7 +22,6 @@ Jeweler::Tasks.new do |gem|
   gem.email = "richard@brevity.us"
   gem.authors = ["Richard Bliss"]
   # dependencies defined in Gemfile
-  gem.add_runtime_dependency 'activesupport', '>= 3.2.0'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
