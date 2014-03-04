@@ -16,8 +16,8 @@ params = {
   'upper_left_longitude' => '10.123',
   'lower_right_latitude' => '85.8',
   'lower_right_longitude' => '7.185'
-  'start_date' => '2013-01-01'
-  'end_date' => '2014-01-01'
+  'created_at_start' => '2013-01-01'
+  'created_at_end' => '2014-01-01'
 }
 ```
 
