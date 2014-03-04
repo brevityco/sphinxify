@@ -144,7 +144,9 @@ describe Sphinxify::Builder do
       'upper_left_latitude' => '25.123', # decimal degrees
       'upper_left_longitude' => '10.123',
       'lower_right_latitude' => '85.8',
-      'lower_right_longitude' => '7.185'
+      'lower_right_longitude' => '7.185',
+      'created_at_start' => '2013-01-01',
+      'created_at_end' => '2014-01-01'
     }
 
     builder = Sphinxify::Builder.new(filters: params, geo: [40.75, 111.88], sort_mode: :desc, per_page: 5_000, max_matches: 5_000) do
@@ -153,6 +155,7 @@ describe Sphinxify::Builder do
       category_filter(:size)
       range_filter(:quantity)
       distance_filter(:distance)
+      date_range_filter(:created_at)
       bounding_box_filter
 
       weight(:color, 2)
@@ -167,7 +170,8 @@ describe Sphinxify::Builder do
         quantity: 100..200,
         geodist: 0.0..40233.5,
         latitude: 1.4974924982111346..0.4384790679785354,
-        longitude: 0.17667968017938596..0.12540190675579257
+        longitude: 0.17667968017938596..0.12540190675579257,
+        created_at: '2013-01-01'.to_date..'2014-01-01'.to_date
       },
       field_weights: {
         color: 2,
