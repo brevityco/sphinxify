@@ -16,10 +16,14 @@ module Sphinxify
       instance_eval(&block)
     end
 
-    def range_filter(name)
+    def range_filter(name, to_float = false)
       name_low, name_high = "#{name}_low", "#{name}_high"
       if filters[name_low].present? && filters[name_high].present?
-        with(name => filters[name_low].to_i..filters[name_high].to_i)
+        if to_float
+          with(name => filters[name_low].to_f..filters[name_high].to_f)
+        else
+          with(name => filters[name_low].to_i..filters[name_high].to_i)
+        end
       end
     end
 
