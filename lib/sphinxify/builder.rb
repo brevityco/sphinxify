@@ -30,7 +30,7 @@ module Sphinxify
     def date_range_filter(name)
       name_start, name_end = "#{name}_start", "#{name}_end" 
       if filters[name_start].present? && filters[name_end].present?
-        with(name => filters[name_start].to_date..filters[name_end].to_date)
+        with(name => filters[name_start].to_datetime..filters[name_end].to_datetime)
       end
       rescue ArgumentError => e
         raise e unless e.to_s == 'invalid date'
