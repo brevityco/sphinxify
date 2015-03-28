@@ -2,7 +2,7 @@ module Sphinxify
   class Options
 
     def initialize(options={})
-      @options = { with: {}, conditions: {}, field_weights: {}, order: nil, select: nil, ranker: nil, page: nil, per_page: nil }
+      @options = { with: {}, without: {}, conditions: {}, field_weights: {}, order: nil, select: nil, ranker: nil, page: nil, per_page: nil }
       @options.merge!(options)
     end
 
