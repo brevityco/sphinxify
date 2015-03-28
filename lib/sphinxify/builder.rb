@@ -1,9 +1,9 @@
 module Sphinxify
   class Builder
     attr_reader :filters, :sphinx_options
-    TS_OPTIONS = [:with, :conditions, :field_weights, :order, :select, :ranker, :page, :per_page, :max_matches, :sort_mode, :group_by]
+    TS_OPTIONS = [:with, :without, :conditions, :field_weights, :order, :select, :ranker, :page, :per_page, :max_matches, :sort_mode, :group_by]
 
-    delegate :select, :with, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
+    delegate :select, :with, :without, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
 
     def initialize(options={}, &block)
       options = ActiveSupport::HashWithIndifferentAccess.new(options)
