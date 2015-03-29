@@ -2,7 +2,7 @@ module Sphinxify
   class Options
 
     def initialize(options={})
-      @options = { with: {}, without: {}, conditions: {}, field_weights: {}, order: nil, select: nil, ranker: nil, page: nil, per_page: nil }
+      @options = { with: {}, without: {}, sql: {}, conditions: {}, field_weights: {}, order: nil, select: nil, ranker: nil, page: nil, per_page: nil }
       @options.merge!(options)
     end
 
@@ -24,6 +24,14 @@ module Sphinxify
     # with option. Expects a hash, else does nothing.
     def with(with={})
       @options[:with].merge!(with) if with.kind_of?(Hash)
+    end
+
+    def without(without={})
+      @options[:without].merge!(without) if without.kind_of?(Hash)
+    end
+
+    def sql(sql={})
+      @options[:sql].merge!(sql) if sql.kind_of?(Hash)
     end
 
     # Sets the order value. Calling again replaces the
