@@ -1,9 +1,9 @@
 module Sphinxify
   class Builder
     attr_reader :filters, :sphinx_options
-    TS_OPTIONS = [:with, :without, :conditions, :field_weights, :order, :select, :sql, :ranker, :page, :per_page, :max_matches, :sort_mode, :group_by]
+    TS_OPTIONS = [:with, :without, :with_all, :conditions, :field_weights, :order, :select, :sql, :ranker, :page, :per_page, :max_matches, :sort_mode, :group_by]
 
-    delegate :select, :sql, :with, :without, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
+    delegate :select, :sql, :with, :without, :with_all, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
 
     def initialize(options={}, &block)
       options = ActiveSupport::HashWithIndifferentAccess.new(options)
@@ -39,6 +39,12 @@ module Sphinxify
     def category_filter(name)
       if filters[name] && Array(filters[name]).delete_if(&:blank?).present?
         with(name => filters[name])
+      end
+    end
+
+    def category_filter_all(name)
+      if filters[name] && Array(filters[name]).delete_if(&:blank?).present?
+        with_all(name => filters[name])
       end
     end
 
