@@ -1,9 +1,9 @@
 module Sphinxify
   class Builder
     attr_reader :filters, :sphinx_options
-    TS_OPTIONS = [:with, :conditions, :field_weights, :order, :select, :ranker, :page, :per_page, :max_matches, :sort_mode]
+    TS_OPTIONS = [:with, :without, :with_all, :conditions, :field_weights, :order, :select, :sql, :ranker, :page, :per_page, :max_matches, :sort_mode, :group_by]
 
-    delegate :select, :with, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
+    delegate :select, :sql, :with, :without, :with_all, :conditions, :order, :geo, :field_weights, :page, :per_page, :to_search_options, :to_facet_options, to: :sphinx_options
 
     def initialize(options={}, &block)
       options = ActiveSupport::HashWithIndifferentAccess.new(options)
@@ -16,17 +16,21 @@ module Sphinxify
       instance_eval(&block)
     end
 
-    def range_filter(name)
+    def range_filter(name, to_float = false)
       name_low, name_high = "#{name}_low", "#{name}_high"
       if filters[name_low].present? && filters[name_high].present?
-        with(name => filters[name_low].to_i..filters[name_high].to_i)
+        if to_float
+          with(name => filters[name_low].to_f..filters[name_high].to_f)
+        else
+          with(name => filters[name_low].to_i..filters[name_high].to_i)
+        end
       end
     end
 
     def date_range_filter(name)
       name_start, name_end = "#{name}_start", "#{name}_end" 
       if filters[name_start].present? && filters[name_end].present?
-        with(name => filters[name_start].to_date..filters[name_end].to_date)
+        with(name => filters[name_start].to_datetime.to_i..filters[name_end].to_datetime.to_i)
       end
       rescue ArgumentError => e
         raise e unless e.to_s == 'invalid date'
@@ -35,6 +39,12 @@ module Sphinxify
     def category_filter(name)
       if filters[name] && Array(filters[name]).delete_if(&:blank?).present?
         with(name => filters[name])
+      end
+    end
+
+    def category_filter_all(name)
+      if filters[name] && Array(filters[name]).delete_if(&:blank?).present?
+        with_all(name => filters[name])
       end
     end
 
